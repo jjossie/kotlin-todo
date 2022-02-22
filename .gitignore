@@ -15,4 +15,5 @@ gradle-app.setting
 
 # IDE
 .idea/
+.idea
 *.iml
