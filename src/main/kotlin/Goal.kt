@@ -2,7 +2,8 @@ import java.util.*
 
 open class Goal(var name: String, val type: CompletionConditionType) {
     var accomplished: Boolean = false
-    val id: Int = 0
+        private set
+    private val id: Int = 0
     override fun toString(): String {
         return "$id) [${if (accomplished) "X" else " "}] $name "
     }

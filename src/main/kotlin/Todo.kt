@@ -1,9 +1,14 @@
 import java.util.*
 
-class Todo(var name: String, val id: Int = 0) {
+class Todo(val id: Int = 0, name: String) {
+    var name: String = name
+        private set
     var completed: Boolean = false
+        private set
     private val dateCreated = Date()
     var dateCompleted: Date? = null
+        private set
+    private var reminderDate: Date? = null
 
     fun complete() {
         completed = true

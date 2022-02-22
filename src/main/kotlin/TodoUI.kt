@@ -48,7 +48,7 @@ class TodoUI {
 
     private fun getTodoName(): String {
         var finished = false
-        var name: String = ""
+        var name = ""
         while (!finished) {
             print("What would you like to do?")
             print("> ")
@@ -65,7 +65,7 @@ class TodoUI {
 
     private fun markTodo(complete: Boolean) {
         print("Which task would you like to mark as ${if (complete) "complete" else "incomplete"}? (enter the ID number)\n>")
-        var todoId = getUserNumber()
+        val todoId = getUserNumber()
         try {
             todoList.markTodo(todoId, complete)
         } catch (e: Error) {
@@ -81,7 +81,7 @@ class TodoUI {
     private fun getUserNumber(): Int {
         print("> ")
         val choice: String = readLine() ?: ""
-        var choiceNum = 0
+        val choiceNum: Int
         try {
             choiceNum = choice.toInt()
         } catch (e: java.lang.NumberFormatException) {

@@ -1,11 +1,11 @@
 import java.util.Date
 
 class TodoList(var name: String) {
-    val id: Int = 0
-    var nextId = 1
-    var todos = ArrayList<Todo>()
+//    private val id: Int = 0
+    private var nextId = 1
+    private var todos = ArrayList<Todo>()
     fun addTodo(name: String){
-        val todo = Todo(name, nextId)
+        val todo = Todo(nextId, "")
         nextId++
         todos.add(todo)
     }
@@ -13,7 +13,7 @@ class TodoList(var name: String) {
         return todos.filter { it.dateCompleted == day }
     }
     fun markTodo(id: Int, complete: Boolean) {
-        var todoToComplete = todos.find {it.id == id} ?: throw Error()
+        val todoToComplete = todos.find {it.id == id} ?: throw Error()
         if (complete)
             todoToComplete.complete()
         else
