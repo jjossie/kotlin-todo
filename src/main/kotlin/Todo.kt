@@ -1,10 +1,10 @@
 import java.util.*
 
-class Todo(var name: String) {
+class Todo(var name: String, val id: Int = 0) {
     var completed: Boolean = false
     private val dateCreated = Date()
     var dateCompleted: Date? = null
-    val id: Int = 0
+
     fun complete() {
         completed = true
         dateCompleted = Date()
@@ -14,7 +14,7 @@ class Todo(var name: String) {
         dateCompleted = null
     }
     override fun toString(): String {
-        return "[${if (completed) "X" else " "}] $name "
+        return "$id) [${if (completed) "X" else " "}] $name "
     }
     fun render(): String{
         var output = "$name: ${if (completed) "done" else "not done"}" +
