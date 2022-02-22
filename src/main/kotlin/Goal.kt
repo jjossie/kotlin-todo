@@ -1,22 +1,26 @@
 import java.util.*
 
 open class Goal(var name: String, val type: CompletionConditionType) {
-
+    var accomplished: Boolean = false
+    val id: Int = 0
+    override fun toString(): String {
+        return "$id) [${if (accomplished) "X" else " "}] $name "
+    }
 }
 
 class TodoGoal(
     name: String,
     var todoList: TodoList,
     var completionTarget: Int,
-    var completed: Int
+    var numberCompleted: Int
 ) : Goal(name = name, type = CompletionConditionType.Todo) {
 
     private fun updateProgress() {
-        completed = todoList.getTodosCompletedOn(Date()).size
+        numberCompleted = todoList.getTodosCompletedOn(Date()).size
     }
 
     fun isComplete(): Boolean {
-        return completed == completionTarget
+        return numberCompleted == completionTarget
     }
 
 }
