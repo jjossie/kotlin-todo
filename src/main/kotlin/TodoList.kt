@@ -1,7 +1,6 @@
 import java.util.Date
 
 class TodoList(var name: String) {
-//    private val id: Int = 0
     private var nextId = 1
     private var todos = ArrayList<Todo>()
     fun addTodo(name: String){

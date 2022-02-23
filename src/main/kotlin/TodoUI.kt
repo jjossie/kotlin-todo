@@ -4,26 +4,25 @@ class TodoUI {
     private val todoList: TodoList = TodoList("Test")
     private val todoMenu: Menu = Menu(
         arrayListOf(
-            MenuOperation(1, "Show All") {
+            MenuOperation("Show All") {
                 todoList.display(TodoListFilter.All)
             },
-            MenuOperation(2, "Show Completed") {
+            MenuOperation("Show Completed") {
                 todoList.display(TodoListFilter.Completed)
             },
-            MenuOperation(3, "Show Incomplete") {
+            MenuOperation("Show Incomplete") {
                 todoList.display(TodoListFilter.Incomplete)
             },
-            MenuOperation(4, "Add To-Do") {
+            MenuOperation("Add To-Do") {
                 todoList.addTodo(getTodoName())
             },
-            MenuOperation(5, "Complete task") {
-                // mark as complete
+            MenuOperation("Complete task") {
                 markTodo(true)
             },
-            MenuOperation(6, "Uncomplete Task") {
+            MenuOperation("Uncomplete Task") {
                 markTodo(false)
             },
-            MenuOperation(7, "Exit") {
+            MenuOperation("Exit") {
                 clear()
                 menu = mainMenu // Switch back to main menu
             },
@@ -31,15 +30,26 @@ class TodoUI {
     )
     private val goalMenu: Menu = Menu(
         arrayListOf(
-            // TODO
+            MenuOperation("Show All Goals") {
+                // Display All Goals
+            },
+            MenuOperation("Show Task-based Goals") {
+
+            },
+            MenuOperation("Show Time-based Goals") {
+
+            },
+            MenuOperation("Show Count-based Goals") {
+
+            }
         )
     )
     private val mainMenu = Menu(arrayListOf(
-        MenuOperation(1, "To-Dos") {
+        MenuOperation("To-Dos") {
             todoList.display(TodoListFilter.All)
             menu = todoMenu // Switch Menus
         },
-        MenuOperation(2, "Goals") {
+        MenuOperation("Goals") {
             menu = goalMenu // Switch Menus
         }
     ))
@@ -121,6 +131,9 @@ class TodoUI {
 class Menu(
     private val operations: ArrayList<MenuOperation>
 ) {
+    init {
+        MenuOperation.nextId = 1
+    }
     fun execute(operationId: Int) {
         val operation: MenuOperation = operations.find { it.id == operationId } ?: throw Error() // TODO?
         operation.menuFunction.invoke()
@@ -133,6 +146,15 @@ class Menu(
         }
         return menuOutput
     }
+//    fun newMenuOperation(description: String, menuFunction: menuFunction): MenuOperation {
+//        return MenuOperation(nextId++, description, menuFunction)
+//    }
 }
 
-class MenuOperation(val id: Int, val description: String, val menuFunction: menuFunction)
+class MenuOperation(/*val id: Int,*/ val description: String, val menuFunction: menuFunction) {
+    var id: Int = nextId++
+
+    companion object {
+        var nextId = 1
+    }
+}
