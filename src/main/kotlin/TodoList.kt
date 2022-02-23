@@ -4,7 +4,7 @@ import java.util.Date
 class TodoList(var name: String) : ProductivityList() {
 
     fun addTodo(name: String) {
-        val todo = Todo(nextId, "")
+        val todo = Todo(nextId, name)
         nextId++
         itemList.add(todo)
     }
