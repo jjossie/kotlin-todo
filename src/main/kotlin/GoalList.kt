@@ -14,4 +14,20 @@ class GoalList : ProductivityList() {
         }
         itemList.add(newGoal)
     }
+
+    fun displayOfType(type: CompletionConditionType){
+        var output = ""
+        itemList
+            .filter {
+                if (it is Goal) {
+                    it.type == type
+                } else {
+                    false
+                }
+            }
+            .forEach {
+                output += "$it\n"
+            }
+        print(output)
+    }
 }

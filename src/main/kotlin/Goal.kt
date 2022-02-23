@@ -6,6 +6,7 @@ abstract class Goal(
     var name: String,
     val type: CompletionConditionType
 ) : Task() {
+    // TODO field indicating when this resets (daily, weekly, etc)
     override var completed: Boolean = false
     abstract fun reset()
     abstract fun getProgressPercent(): Int
