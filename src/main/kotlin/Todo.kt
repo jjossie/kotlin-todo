@@ -1,10 +1,9 @@
 import java.util.*
 
-class Todo(val id: Int = 0, name: String) {
+class Todo(override val id: Int = 0, name: String) : Task() {
     var name: String = name
         private set
-    var completed: Boolean = false
-        private set
+    override var completed: Boolean = false
     private val dateCreated = Date()
     var dateCompleted: Date? = null
         private set

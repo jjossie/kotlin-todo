@@ -5,13 +5,13 @@ class TodoUI {
     private val todoMenu: Menu = Menu(
         arrayListOf(
             MenuOperation("Show All") {
-                todoList.display(TodoListFilter.All)
+                todoList.display(ListFilter.All)
             },
             MenuOperation("Show Completed") {
-                todoList.display(TodoListFilter.Completed)
+                todoList.display(ListFilter.Completed)
             },
             MenuOperation("Show Incomplete") {
-                todoList.display(TodoListFilter.Incomplete)
+                todoList.display(ListFilter.Incomplete)
             },
             MenuOperation("Add To-Do") {
                 todoList.addTodo(getTodoName())
@@ -46,7 +46,7 @@ class TodoUI {
     )
     private val mainMenu = Menu(arrayListOf(
         MenuOperation("To-Dos") {
-            todoList.display(TodoListFilter.All)
+            todoList.display(ListFilter.All)
             menu = todoMenu // Switch Menus
         },
         MenuOperation("Goals") {

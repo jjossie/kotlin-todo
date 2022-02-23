@@ -1,14 +1,13 @@
 import java.util.*
 import kotlin.math.roundToInt
 
-abstract class Goal(var name: String, val type: CompletionConditionType) {
-    var accomplished: Boolean = false
-        protected set
-    private val id: Int = 0
+abstract class Goal(var name: String, val type: CompletionConditionType) : Task() {
+    override var completed: Boolean = false
+    override val id: Int = 0
     abstract fun reset()
     abstract fun getProgressPercent(): Int
     override fun toString(): String {
-        return "$id) [${if (accomplished) "✅" else " "}]$name: "
+        return "$id) [${if (completed) "✅" else " "}]$name: "
     }
 }
 
@@ -21,7 +20,7 @@ class TodoGoal(
 
     private fun updateProgress() {
         numberCompleted = todoList.getTodosCompletedOn(Date()).size
-        accomplished = numberCompleted >= completionTarget
+        completed = numberCompleted >= completionTarget
     }
 
     override fun getProgressPercent(): Int {
@@ -52,7 +51,7 @@ class CountGoal(
     }
 
     fun updateProgress(){
-        accomplished = numberCompleted == completionTarget
+        completed = numberCompleted == completionTarget
     }
 
     override fun reset() {
