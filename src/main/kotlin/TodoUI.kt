@@ -15,7 +15,7 @@ class TodoUI {
                 todoList.display(ListFilter.Incomplete)
             },
             MenuOperation("Add To-Do") {
-                todoList.addTodo(getTaskName("What would you like to do?"))
+                todoList.addTodo(getUserString("What would you like to do?"))
             },
             MenuOperation("Complete task") {
                 markTodo(true)
@@ -33,11 +33,7 @@ class TodoUI {
         arrayListOf(
             MenuOperation("Add Goal") {
                 // Create a new Goal (need a type first)
-                try {
-                    val goalType = getGoalType() ?: throw Error()
-                } catch (e: Error) {
-                    error("Not a valid Goal Type.")
-                }
+                createNewGoal()
             },
             MenuOperation("Show All Goals") {
                 // Display All Goals
@@ -57,12 +53,13 @@ class TodoUI {
             MenuOperation("Show Count-based Goals") {
                 goalList.displayOfType(CompletionConditionType.Count)
             },
-            MenuOperation("Exit"){
+            MenuOperation("Exit") {
                 clear()
                 menu = mainMenu // Exit to main menu
             }
         )
     )
+
     private val mainMenu = Menu(arrayListOf(
         MenuOperation("To-Dos") {
             todoList.display(ListFilter.All)
@@ -74,10 +71,41 @@ class TodoUI {
     ))
 
     private var menu: Menu = mainMenu
+    private fun createNewGoal() {
+        // Get goal Type
+        val goalType =
+            getGoalType() ?: throw Error("Not a valid goal type") // TODO change this to be handled in the function
+
+        // Get goal name
+        val name = getUserString("What is your goal?")
+
+        // Two different sets of params based on goal type
+        if (goalType == CompletionConditionType.Count) {
+            // Get completion target based on goal type
+            val unitPrompt = "What type of progress are you counting?"
+            val units = getUserString(unitPrompt)
+            val targetPrompt = "How many ${units} would you like to complete per day?"
+            val target = getUserNumber(targetPrompt)
+
+            // Finally, create the goal
+            goalList.addGoal(name, goalType, target, units = units)
+
+        } else if (goalType == CompletionConditionType.Todo) {
+            // Get target number of to-do items
+            val targetPrompt = "How many todo list items would you like to complete per day?"
+            val target = getUserNumber(targetPrompt)
+
+            // Finally, create the goal
+            goalList.addGoal(name, goalType, target, todoList = todoList)
+        }
+    }
+
 
     private fun getGoalType(): CompletionConditionType? {
-        print("1) Count-Based")
-        print("2) To-Do List Based")
+        // TODO guarantee results with loop logic
+        println("What type of goal would you like to make?")
+        println("1) Count-Based")
+        println("2) To-Do List Based")
         return when (getUserNumber()) {
             1 -> CompletionConditionType.Count
             2 -> CompletionConditionType.Todo
@@ -85,26 +113,10 @@ class TodoUI {
         }
     }
 
-    private fun getTaskName(message: String): String {
-        var finished = false
-        var name = ""
-        while (!finished) {
-            print(message)
-            print("> ")
-            val inputName = readLine()
-            if (inputName == null) {
-                error("Cannot be blank")
-            } else {
-                name = inputName
-                finished = true
-            }
-        }
-        return name
-    }
 
     private fun markTodo(complete: Boolean) {
-        print("Which task would you like to mark as ${if (complete) "complete" else "incomplete"}? (enter the ID number)\n>")
-        val todoId = getUserNumber()
+        val prompt = "Which task would you like to mark as ${if (complete) "complete" else "incomplete"}? (enter the ID number)\n>"
+        val todoId = getUserNumber(prompt)
         try {
             todoList.markTodo(todoId, complete)
         } catch (e: Error) {
@@ -112,18 +124,6 @@ class TodoUI {
         }
     }
 
-    private fun getUserNumber(): Int {
-        print("> ")
-        val choice: String = readLine() ?: ""
-        val choiceNum: Int
-        try {
-            choiceNum = choice.toInt()
-        } catch (e: java.lang.NumberFormatException) {
-            error("Not a number")
-            throw e
-        }
-        return choiceNum
-    }
 
     fun displayMenu() {
         print("Select an option: \n")
@@ -140,6 +140,40 @@ class TodoUI {
             error("Not a valid menu item")
             return
         }
+    }
+
+    private fun getUserString(message: String): String {
+        var finished = false
+        var name = ""
+        while (!finished) {
+            print(message)
+            print("> ")
+            val inputName = readLine()
+            if (inputName.isNullOrBlank()) {
+                error("Cannot be blank")
+            } else {
+                name = inputName
+                finished = true
+            }
+        }
+        return name
+    }
+
+    private fun getUserNumber(message: String? = null): Int {
+        // TODO make this a guaranteed loop like getUserString()
+        if (message != null) {
+            print(message)
+        }
+        print("> ")
+        val choice: String = readLine() ?: ""
+        val choiceNum: Int
+        try {
+            choiceNum = choice.toInt()
+        } catch (e: java.lang.NumberFormatException) {
+            error("Not a number")
+            throw e
+        }
+        return choiceNum
     }
 
     private fun error(msg: String) {
@@ -163,6 +197,7 @@ class Menu(
     init {
         MenuOperation.nextId = 1
     }
+
     fun execute(operationId: Int) {
         val operation: MenuOperation = operations.find { it.id == operationId } ?: throw Error() // TODO?
         operation.menuFunction.invoke()

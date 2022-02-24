@@ -11,7 +11,7 @@ abstract class Goal(
     abstract fun reset()
     abstract fun getProgressPercent(): Int
     override fun toString(): String {
-        return "$id) [${if (completed) "✅" else " "}]$name: "
+        return "$id) [${if (completed) "✅" else " "}] $name: "
     }
 }
 

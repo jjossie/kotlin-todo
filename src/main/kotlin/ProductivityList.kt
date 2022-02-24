@@ -17,7 +17,7 @@ abstract class ProductivityList {
                 output += "$it\n"
             }
         if (output == "") {
-            output = "No to-do items.\n"
+            output = "No items.\n"
         }
         print(output)
     }
