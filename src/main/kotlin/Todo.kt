@@ -1,14 +1,16 @@
-import java.time.LocalDate
-import java.util.*
+@file:Suppress("unused")
 
-class Todo(override val id: Int = 0, name: String) : Task() {
-    var name: String = name
-        private set
+import java.time.LocalDate
+
+/**
+ * Represents a single To-Do list item that has a name, date created, date completed, and checked-off status.
+ */
+class Todo(override val id: Int = 0, private var name: String) : Task() {
     override var completed: Boolean = false
     private val dateCreated = LocalDate.now()
     var dateCompleted: LocalDate? = null
         private set
-    private var reminderDate: LocalDate? = null
+    private var reminderDate: LocalDate? = null // To be used in the future for reminders
 
     fun complete() {
         completed = true

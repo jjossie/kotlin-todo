@@ -1,5 +1,6 @@
-import java.sql.Time
-
+/**
+ * A collection of Goals of varying types (subclasses of Goal).
+ */
 class GoalList : ProductivityList() {
 
     // TODO add logic for resetting goals once per day

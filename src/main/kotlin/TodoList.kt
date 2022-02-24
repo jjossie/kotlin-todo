@@ -1,7 +1,10 @@
 import java.time.LocalDate
-import java.util.Date
 
 @Suppress("UNCHECKED_CAST")
+
+/**
+ * Contains a list of To-Do objects and logic for organizing/maintaining them.
+ */
 class TodoList(var name: String) : ProductivityList() {
 
     fun addTodo(name: String) {

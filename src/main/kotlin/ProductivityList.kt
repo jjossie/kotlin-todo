@@ -1,3 +1,6 @@
+/**
+ * Parent class for TodoList and GoalList since they share a lot in common.
+ */
 abstract class ProductivityList {
     protected var nextId = 1
 

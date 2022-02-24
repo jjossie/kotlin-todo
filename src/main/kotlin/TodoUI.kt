@@ -70,7 +70,18 @@ class TodoUI {
         }
     ))
 
+    /**
+     * Holds the currently displayed menu.
+     */
     private var menu: Menu = mainMenu
+
+    /**
+     * Allows the user to create a new goal by prompting for a set of parameters. Which parameters
+     * are prompted for depends on the type specified first by the user - for example,
+     * To-Do type goals will prompt the user for the number of to-dos that day, whereas a
+     * count-based goal will prompt the user for a unit of measurement of the goal as well as
+     * a target number.
+     */
     private fun createNewGoal() {
         // Get goal Type
         val goalType =
@@ -84,7 +95,7 @@ class TodoUI {
             // Get completion target based on goal type
             val unitPrompt = "What type of progress are you counting?"
             val units = getUserString(unitPrompt)
-            val targetPrompt = "How many ${units} would you like to complete per day?"
+            val targetPrompt = "How many $units would you like to complete per day?"
             val target = getUserNumber(targetPrompt)
 
             // Finally, create the goal
@@ -100,17 +111,21 @@ class TodoUI {
         }
     }
 
+    /**
+     * Displays all menu options for this UI object's current menu.
+     */
     fun displayMenu() {
         print("Select an option: \n")
         print(menu.render())
     }
 
+    /**
+     * Enables the user to select a menu item and execute the operation associated with it.
+     */
     fun doMenuOperation() {
         try {
             val choiceNum = getUserNumber()
             menu.execute(choiceNum)
-        } catch (e: java.lang.NumberFormatException) {
-            return
         } catch (e: Error) {
             error("Not a valid menu item")
             return
@@ -125,6 +140,9 @@ class TodoUI {
         goalList.update()
     }
 
+    /**
+     * Prompts the user to select one of the enumerated goal types.
+     */
     private fun getGoalType(): CompletionConditionType? {
         // TODO guarantee results with loop logic
         println("What type of goal would you like to make?")
@@ -137,6 +155,9 @@ class TodoUI {
         }
     }
 
+    /**
+     * Helps the user select a to-do to mark as complete or incomplete.
+     */
     private fun markTodo(complete: Boolean) {
         val prompt = "Which task would you like to mark as ${if (complete) "complete" else "incomplete"}? (enter the ID number)\n>"
         val todoId = getUserNumber(prompt)
@@ -147,6 +168,10 @@ class TodoUI {
         }
     }
 
+    /**
+     * Prompts the user repeatedly for a non-blank string to be used for
+     * getting goal and to-do names.
+     */
     private fun getUserString(message: String): String {
         var finished = false
         var name = ""
@@ -164,23 +189,37 @@ class TodoUI {
         return name
     }
 
+    /**
+     * Prompts the user repeatedly for an integer to be used for menu choices,
+     * goal counts, etc.
+     */
     private fun getUserNumber(message: String? = null): Int {
-        // TODO make this a guaranteed loop like getUserString()
-        if (message != null) {
-            print(message)
-        }
-        print("> ")
-        val choice: String = readLine() ?: ""
-        val choiceNum: Int
-        try {
-            choiceNum = choice.toInt()
-        } catch (e: java.lang.NumberFormatException) {
-            error("Not a number")
-            throw e
+
+        var finished = false
+        var choiceNum = 0
+        while (!finished) {
+            if (message != null) {
+                print(message)
+            }
+            print("> ")
+            val choice = readLine()
+            if (choice.isNullOrBlank()) {
+                error("Cannot be blank")
+            } else {
+                try {
+                    choiceNum = choice.toInt()
+                    finished = true
+                } catch (e: java.lang.NumberFormatException) {
+                    error("Not a number")
+                }
+            }
         }
         return choiceNum
     }
 
+    /**
+     * A helper function like debug() for printing errors to the console.
+     */
     private fun error(msg: String) {
         print("\nERROR: $msg\n")
     }
@@ -196,6 +235,10 @@ class TodoUI {
 
 }
 
+/**
+ * Represents a list of Menu Operations with methods to display the menu and
+ * execute one of its operations.
+ */
 class Menu(
     private val operations: ArrayList<MenuOperation>
 ) {
@@ -215,11 +258,12 @@ class Menu(
         }
         return menuOutput
     }
-//    fun newMenuOperation(description: String, menuFunction: menuFunction): MenuOperation {
-//        return MenuOperation(nextId++, description, menuFunction)
-//    }
 }
 
+/**
+ * Represents a function with a name attached to it, as well as an automatically generated
+ * ID so the user can execute menu options by only entering a number.
+ */
 class MenuOperation(/*val id: Int,*/ val description: String, val menuFunction: menuFunction) {
     var id: Int = nextId++
 

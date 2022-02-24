@@ -1,7 +1,12 @@
+@file:Suppress("unused")
+
 import java.time.LocalDate
-import java.util.*
 import kotlin.math.roundToInt
 
+/**
+ * Represents a daily (sort of) goal for the user, including their progress towards achieving said goal.
+ * Parent class for the two kinds of goals to modularize their common behavior/attributes.
+ */
 abstract class Goal(
     override val id: Int,
     var name: String,
@@ -16,6 +21,9 @@ abstract class Goal(
     }
 }
 
+/**
+ * A Goal whose completion is based on the number of items checked off a TodoList on a given day.
+ */
 class TodoGoal(
     id: Int,
     name: String,
@@ -46,6 +54,9 @@ class TodoGoal(
     }
 }
 
+/**
+ * A simple type of goal containing a target goal and a counter representing progress towards that target.
+ */
 class CountGoal(
     id: Int,
     name: String,
@@ -81,7 +92,9 @@ class CountGoal(
 
 }
 
-
+/**
+ * Represents the different types of goals. Eventually we'll add time-based goals.
+ */
 enum class CompletionConditionType {
-    Count, /*Time,*/ Todo
+    Count, Todo
 }
