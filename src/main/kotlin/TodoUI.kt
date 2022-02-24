@@ -100,31 +100,6 @@ class TodoUI {
         }
     }
 
-
-    private fun getGoalType(): CompletionConditionType? {
-        // TODO guarantee results with loop logic
-        println("What type of goal would you like to make?")
-        println("1) Count-Based")
-        println("2) To-Do List Based")
-        return when (getUserNumber()) {
-            1 -> CompletionConditionType.Count
-            2 -> CompletionConditionType.Todo
-            else -> null
-        }
-    }
-
-
-    private fun markTodo(complete: Boolean) {
-        val prompt = "Which task would you like to mark as ${if (complete) "complete" else "incomplete"}? (enter the ID number)\n>"
-        val todoId = getUserNumber(prompt)
-        try {
-            todoList.markTodo(todoId, complete)
-        } catch (e: Error) {
-            error("Not a valid todo item.")
-        }
-    }
-
-
     fun displayMenu() {
         print("Select an option: \n")
         print(menu.render())
@@ -139,6 +114,36 @@ class TodoUI {
         } catch (e: Error) {
             error("Not a valid menu item")
             return
+        }
+    }
+
+    /**
+     * Wrapper function to be called at a logical update interval which
+     * will update the progress of all goals and all todos.
+     */
+    fun update() {
+        goalList.update()
+    }
+
+    private fun getGoalType(): CompletionConditionType? {
+        // TODO guarantee results with loop logic
+        println("What type of goal would you like to make?")
+        println("1) Count-Based")
+        println("2) To-Do List Based")
+        return when (getUserNumber()) {
+            1 -> CompletionConditionType.Count
+            2 -> CompletionConditionType.Todo
+            else -> null
+        }
+    }
+
+    private fun markTodo(complete: Boolean) {
+        val prompt = "Which task would you like to mark as ${if (complete) "complete" else "incomplete"}? (enter the ID number)\n>"
+        val todoId = getUserNumber(prompt)
+        try {
+            todoList.markTodo(todoId, complete)
+        } catch (e: Error) {
+            error("Not a valid todo item.")
         }
     }
 

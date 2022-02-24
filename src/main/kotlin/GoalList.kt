@@ -1,4 +1,11 @@
+import java.sql.Time
+
 class GoalList : ProductivityList() {
+
+    // TODO add logic for resetting goals once per day
+//    var needsReset: Boolean = false
+//    val resetTime: Time = Time(0)
+
     fun addGoal(
         name: String,
         type: CompletionConditionType,
@@ -29,5 +36,18 @@ class GoalList : ProductivityList() {
                 output += "$it\n"
             }
         print(output)
+    }
+
+    /***
+     * Update the logic of each goal, including updating progress
+     * based on information from the todos and resetting based on
+     * the day.
+     */
+    fun update() {
+        // Update progress for each TodoGoal
+        itemList
+            .filterIsInstance<TodoGoal>()
+            .forEach { it.updateProgress() }
+        // TODO Reset necessary goals
     }
 }

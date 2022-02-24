@@ -1,17 +1,18 @@
+import java.time.LocalDate
 import java.util.*
 
 class Todo(override val id: Int = 0, name: String) : Task() {
     var name: String = name
         private set
     override var completed: Boolean = false
-    private val dateCreated = Date()
-    var dateCompleted: Date? = null
+    private val dateCreated = LocalDate.now()
+    var dateCompleted: LocalDate? = null
         private set
-    private var reminderDate: Date? = null
+    private var reminderDate: LocalDate? = null
 
     fun complete() {
         completed = true
-        dateCompleted = Date()
+        dateCompleted = LocalDate.now()
     }
     fun incomplete() {
         completed = false

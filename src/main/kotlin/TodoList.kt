@@ -1,3 +1,4 @@
+import java.time.LocalDate
 import java.util.Date
 
 @Suppress("UNCHECKED_CAST")
@@ -9,7 +10,7 @@ class TodoList(var name: String) : ProductivityList() {
         itemList.add(todo)
     }
 
-    fun getTodosCompletedOn(day: Date): List<Todo> {
+    fun getTodosCompletedOn(day: LocalDate): List<Todo> {
         return itemList.filter {
             if (it is Todo)
                 it.dateCompleted == day

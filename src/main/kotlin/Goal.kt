@@ -1,3 +1,4 @@
+import java.time.LocalDate
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -23,14 +24,16 @@ class TodoGoal(
 ) : Goal(id = id, name = name, type = CompletionConditionType.Todo) {
     private var numberCompleted: Int = 0
 
-    private fun updateProgress() {
-        numberCompleted = todoList.getTodosCompletedOn(Date()).size
+    internal fun updateProgress() {
+//        debug("Goal $name progress before update: $numberCompleted")
+        numberCompleted = todoList.getTodosCompletedOn(LocalDate.now()).size
+//        debug("after update: $numberCompleted")
         completed = numberCompleted >= completionTarget
     }
 
     override fun getProgressPercent(): Int {
         updateProgress()
-        return ((numberCompleted).toDouble() / (completionTarget).toDouble()).roundToInt()
+        return ((numberCompleted).toDouble() / (completionTarget).toDouble() * 100).roundToInt()
     }
 
     override fun toString(): String {
@@ -39,6 +42,7 @@ class TodoGoal(
 
     override fun reset() {
         numberCompleted = 0
+        completed = false
     }
 }
 
@@ -64,6 +68,7 @@ class CountGoal(
 
     override fun reset() {
         numberCompleted = 0
+        completed = false
     }
 
     override fun getProgressPercent(): Int {
