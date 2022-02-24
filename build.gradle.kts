@@ -14,6 +14,13 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:29.0.0"))
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }
 
 tasks.test {

@@ -24,7 +24,7 @@ class Todo(override val id: Int = 0, private var name: String) : Task() {
         return "$id) [${if (completed) "✅" else " "}] $name "
     }
     fun render(): String{
-        var output = "$name: ${if (completed) "done" else "not done"}" +
+        var output = "$name: ${if (completed) "done" else "not done"}" +1
                 "\ncreated: $dateCreated"
         if (completed) {
             output += "\n completed: $dateCompleted"
