@@ -1,3 +1,4 @@
+import com.google.firebase.database.Exclude
 import java.time.LocalDate
 
 @Suppress("UNCHECKED_CAST")
@@ -13,10 +14,11 @@ class TodoList(var name: String) : ProductivityList() {
         itemList.add(todo)
     }
 
+    @Exclude
     fun getTodosCompletedOn(day: LocalDate): List<Todo> {
         return itemList.filter {
             if (it is Todo)
-                it.dateCompleted == day
+                it.getCompletionDate() == day
             else
                 false
         } as List<Todo>

@@ -1,10 +1,14 @@
+import com.google.firebase.database.IgnoreExtraProperties
+
 /**
  * Parent class for TodoList and GoalList since they share a lot in common.
  */
+@IgnoreExtraProperties
 abstract class ProductivityList {
     protected var nextId = 1
 
-    protected var itemList = ArrayList<Task>()
+    var itemList = ArrayList<Task>()
+        protected set
 
     fun display(filter: ListFilter) {
         var output = ""
