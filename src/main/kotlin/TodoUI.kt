@@ -1,6 +1,9 @@
 typealias menuFunction = () -> Unit
 
-class TodoUI {
+class TodoUI(
+    private val username: String
+) {
+    private val repository = Repository()
     private val todoList = TodoList("Test")
     private val goalList = GoalList()
     private val todoMenu: Menu = Menu(
@@ -67,6 +70,9 @@ class TodoUI {
         },
         MenuOperation("Goals") {
             menu = goalMenu // Switch Menus
+        },
+        MenuOperation("Save") {
+            repository.saveUser(username, todoList, null)
         }
     ))
 
@@ -172,22 +178,7 @@ class TodoUI {
      * Prompts the user repeatedly for a non-blank string to be used for
      * getting goal and to-do names.
      */
-    fun getUserString(message: String): String {
-        var finished = false
-        var name = ""
-        while (!finished) {
-            print(message)
-            print("> ")
-            val inputName = readLine()
-            if (inputName.isNullOrBlank()) {
-                error("Cannot be blank")
-            } else {
-                name = inputName
-                finished = true
-            }
-        }
-        return name
-    }
+
 
     /**
      * Prompts the user repeatedly for an integer to be used for menu choices,

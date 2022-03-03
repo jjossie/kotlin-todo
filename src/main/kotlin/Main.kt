@@ -16,10 +16,10 @@ import com.google.firebase.cloud.FirestoreClient
  */
 fun main() {
 
-    val ui = TodoUI()
-    var username = ui.getUserString("Enter your username")
+    val username = getUserString("Enter your username")
+    val ui = TodoUI(username)
 
-    testFirestore()
+//    testFirestore()
 
     while (true) {
         ui.displayMenu()
@@ -71,4 +71,22 @@ fun testFirestore() {
  */
 fun debug(message: String) {
     println("\nDEBUG: $message\n")
+}
+
+
+fun getUserString(message: String): String {
+    var finished = false
+    var name = ""
+    while (!finished) {
+        print(message)
+        print("> ")
+        val inputName = readLine()
+        if (inputName.isNullOrBlank()) {
+            error("Cannot be blank")
+        } else {
+            name = inputName
+            finished = true
+        }
+    }
+    return name
 }
