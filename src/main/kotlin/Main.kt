@@ -1,9 +1,13 @@
 @file:Suppress("unused")
 
+import com.google.api.core.ApiFuture
 import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.firestore.CollectionReference
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.cloud.firestore.Firestore
+import com.google.cloud.firestore.QuerySnapshot
+import com.google.cloud.firestore.WriteResult
 import com.google.firebase.cloud.FirestoreClient
 
 
@@ -13,6 +17,7 @@ import com.google.firebase.cloud.FirestoreClient
 fun main() {
 
     val ui = TodoUI()
+    var username = ui.getUserString("Enter your username")
 
     testFirestore()
 
@@ -25,15 +30,39 @@ fun main() {
 
 
 fun testFirestore() {
-    val db = Database.getDatabase()
+    val documentName = "users"
 
+    // Get database
+    val db = Database.getDatabase()
+//    val colRef: CollectionReference = db.collection("users")
+
+    // Make document
+    val docRef = db.collection(documentName).document("hughjass")
+    // Make user hashmap
     val user = hashMapOf<String, Any>(
         "first" to "hugh",
         "last" to "jass",
         "born" to 420
     )
-    db.collection("users")
-        .add(user)
+//    val colResult = colRef.add(user)
+
+    // Store user hashmap in document
+    val result: ApiFuture<WriteResult> = docRef.set(user)
+    // This call is blocking
+    println("Time taken: ${result.get().updateTime}")
+
+
+    // Get all users
+    val query = db.collection(documentName).get()
+    val querySnapshot = query.get()
+    val documents = querySnapshot.documents
+    for (doc in documents) {
+        println("User ID: ${doc.id}")
+        val middleName = doc.getString("middle") ?: ""
+        println("Name: ${doc.getString("first")} $middleName ${doc.getString("last")}")
+        println("Born: ${doc.getLong("born")}")
+    }
+
 }
 
 

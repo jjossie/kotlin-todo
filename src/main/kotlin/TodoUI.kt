@@ -172,7 +172,7 @@ class TodoUI {
      * Prompts the user repeatedly for a non-blank string to be used for
      * getting goal and to-do names.
      */
-    private fun getUserString(message: String): String {
+    fun getUserString(message: String): String {
         var finished = false
         var name = ""
         while (!finished) {
