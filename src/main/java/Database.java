@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public class Database {
 
+    private static Firestore instance;
+
     public static Firestore getDatabase() throws IOException {
         // Use the application default credentials
 //        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault();
@@ -17,15 +19,20 @@ public class Database {
 //                .setProjectId("kotlin-productivity")
 //                .build();
 
-        FileInputStream serviceAccount =
-                new FileInputStream("C:\\Users\\joelj\\Documents\\LocalDev\\kotlin-todo\\secret\\kotlin-productivity-firebase-adminsdk-fa1eq-ed7accbd34.json");
+        if (instance == null){
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .build();
+            FileInputStream serviceAccount =
+                    new FileInputStream("C:\\Users\\joelj\\Documents\\LocalDev\\kotlin-todo\\secret\\kotlin-productivity-firebase-adminsdk-fa1eq-ed7accbd34.json");
 
-        FirebaseApp.initializeApp(options);
-        return FirestoreClient.getFirestore();
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .build();
+
+            FirebaseApp.initializeApp(options);
+            instance = FirestoreClient.getFirestore();
+        }
+        return instance;
+
     }
 
     public Database() {}

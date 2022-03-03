@@ -1,21 +1,20 @@
 @file:Suppress("unused")
 
-import com.google.firebase.database.Exclude
-import com.google.firebase.database.IgnoreExtraProperties
+import com.google.cloud.firestore.annotation.Exclude
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties
 import java.time.LocalDate
 
 /**
  * Represents a single To-Do list item that has a name, date created, date completed, and checked-off status.
  */
+@IgnoreExtraProperties
 class Todo(override val id: Int = 0, var name: String) : Task() {
     override var completed: Boolean = false
-    @Exclude
-    private val dateCreated: Long = LocalDate.now().toEpochDay()
-    @Exclude
-    private var dateCompleted: Long? = null
-//        private set
-    @Exclude
-    private var reminderDate: Long? = null // To be used in the future for reminders
+    val dateCreated: Long = LocalDate.now().toEpochDay()
+    var dateCompleted: Long? = null
+        private set
+    var reminderDate: Long? = null // To be used in the future for reminders
+        private set
 
     fun complete() {
         completed = true
