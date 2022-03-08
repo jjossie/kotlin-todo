@@ -4,8 +4,9 @@ class TodoUI(
     private val username: String
 ) {
     private val repository = Repository()
-    private val todoList = TodoList("Test")
+    private val todoList: TodoList = repository.loadTodoList(username) ?: TodoList("Test")
     private val goalList = GoalList()
+
     private val todoMenu: Menu = Menu(
         arrayListOf(
             MenuOperation("Show All") {

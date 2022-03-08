@@ -18,7 +18,6 @@ fun main() {
 
     val username = getUserString("Enter your username")
     val ui = TodoUI(username)
-
 //    testFirestore()
 
     while (true) {

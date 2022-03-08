@@ -1,4 +1,5 @@
-import com.google.firebase.database.Exclude
+//import com.google.firebase.database.Exclude
+import com.google.cloud.firestore.annotation.Exclude
 import java.time.LocalDate
 
 @Suppress("UNCHECKED_CAST")

@@ -12,13 +12,6 @@ public class Database {
     private static Firestore instance;
 
     public static Firestore getDatabase() throws IOException {
-        // Use the application default credentials
-//        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault();
-//        FirebaseOptions options = new FirebaseOptions.Builder()
-//                .setCredentials(credentials)
-//                .setProjectId("kotlin-productivity")
-//                .build();
-
         if (instance == null){
 
             FileInputStream serviceAccount =
@@ -32,7 +25,6 @@ public class Database {
             instance = FirestoreClient.getFirestore();
         }
         return instance;
-
     }
 
     public Database() {}
