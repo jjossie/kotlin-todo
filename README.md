@@ -18,7 +18,14 @@ handled using Menu and MenuOperation classes, which accept and store
 anonymous functions to associate code to be executed with each menu
 item.
 
+The latest feature developed is integration with Cloud Firestore as a
+means of cloud-based data storage.
+This (in theory) allows users to store updates to their 
+
 [Demonstration Video](https://youtu.be/zW07IqWriBI)
+
+# Cloud Database
+
 
 # Development Environment
 
